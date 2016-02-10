@@ -36,7 +36,7 @@ names(averages)<-c("interval","mean_steps")
 # Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 ggplot(averages)+geom_line(aes(interval,mean_steps))
 # Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-averages[which.max(averages$steps),] 
+averages[which.max(averages$mean_steps),] 
 ```
 
 ## Imputing missing values
@@ -47,6 +47,7 @@ nonNA<-length(data[complete.cases(data),1])
 total - nonNA
 # Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 # Create a new dataset that is equal to the original dataset but with the missing data filled in.
+# Here I imputed the missing data as the rounded average number of steps for that 5-minute interval
 for (i in seq(0,2355,5)) {
   interval <- data[data$interval == i,]
   data$steps<-replace(data$steps,is.na(data$steps) & data$interval == i,round(mean(complete.cases(interval$steps))))
